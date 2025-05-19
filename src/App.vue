@@ -26,83 +26,153 @@
       <h2>Novos Funkos Para Você!</h2>
 
       <div class="product-display">
-        <div class="product-container" v-for="(product, index) in products" :key="product.id">
+        <div class="product-container" v-for="(product, ) in products" :key="product.id">
           <img src="@/assets/images/favorite_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Favoritar"
-            class="icon-heart" />
-
+            class="icon-heart">
           <a :href="'product.html?id=' + product.id" style="text-decoration: none;">
             <div class="product-image">
-              <img :src="product.image" :alt="product.title" />
+              <img :src="product.image" :alt="product.title">
             </div>
             <div class="product-info">
               <h3 class="product-name">{{ product.title }}</h3>
               <p class="product-price">{{ product.price }}</p>
-
               <p v-if="product.inStock >= 10" class="inStock">In Stock</p>
               <p v-else-if="product.inStock > 1 && product.inStock < 10"
-                style="color: rgb(255, 191, 0); font-size: 22px; font-family: Roboto, sans-serif; font-weight: 400;">
-                Almost out of stock
-              </p>
-              <p v-else style="color: red; font-size: 22px; font-family: Roboto, sans-serif; font-weight: 400;">
-                Out of stock
-              </p>
-            </div>
+                style="color: rgb(255, 191, 0);font-size: 22px;  font-family: Roboto, sans-serif;font-weight: 400;">
+                Almost out of stock</p>
+              <p v-else style="color: red;font-size: 22px; font-family: Roboto, sans-serif;font-weight: 400;">Out of
+                stock</p>
+              </div>
           </a>
-
           <button class="button" :class="{ disabledButton: product.inStock < 1 }" @click="addToCart"
-            :disabled="product.inStock < 1">
-            <img src="@/assets/images/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="icon-cart"
-              class="icon-cart" />
-          </button>
+            :disabled="product.inStock < 1"><img
+              src="@/assets/images/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="icon-cart"
+              class="icon-cart"></button>
         </div>
       </div>
     </div>
-
-    <div class="footer">
-      <img src="@/assets/images/The-Simpsons-28-04-2025 3 (1).png" alt="The Simpsons" />
-    </div>
   </div>
+
+  <div class="footer">
+    <img src="@/assets/images/The-Simpsons-28-04-2025 3 (1).png" alt="The Simpsons" />
+  </div>
+  
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+
+import { ref } from 'vue'
 
 const cart = ref(0)
+
+const addToCart = (product) => {
+  cart.value += 1
+  let storedCart = JSON.parse(localStorage.getItem("cart")) || []
+
+  const existingItem = storedCart.find((item) => item.id === product.id)
+
+  if (existingItem) {
+    existingItem.quantity += 1
+  } else {
+    storedCart.push({
+      id: product.id,
+      title: product.title,
+      description: product.description,
+      image: product.image,
+      quantity: 1,
+    })
+  }
+
+  localStorage.setItem("cart", JSON.stringify(storedCart))
+}
 
 const products = ref([
   {
     id: 1,
-    title: 'Funko Bart',
-    price: 'R$ 99,90',
-    inStock: 5,
-    image: '@/assets/images/bart.png',
+    title: 'Pop! Homer',
+    image: new URL('@/assets/images/funkoHomer.png', import.meta.url).href,
+    inStock: 0,
+    price: 'R$150,00'
+  }, {
+    id: 2,
+    title: 'Pop! Skeleton Margie',
+    image: new URL ('@/assets/images/funkopopMargeSimpson.webp', import.meta.url).href,
+    inStock: 0,
+    price: 'R$120,00'
   },
   {
-    id: 2,
-    title: 'Funko Homer',
-    price: 'R$ 109,90',
-    inStock: 0,
-    image: '@/assets/images/homer.png',
+    id: 3,
+    title: 'Pop! Maggie Simpson',
+    image: new URL ('@/assets/images/funkoMaggieSimpson.webpp', import.meta.url).href,
+    inStock: 30,
+    price: 'R$230,00'
   },
-  // Adicione mais produtos aqui
-])
-
-function addToCart() {
-  cart.value++
-}
-
-onMounted(() => {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then(() => {
-        console.log('Service worker registered')
-      })
-      .catch(() => {
-        console.warn('Service worker failed')
-      })
+  {
+    id: 4,
+    title: 'Pop! Bart Simpson',
+    image: new URL ('@/assets/images/funkopopBart.jpg', import.meta.url).href,
+    inStock: 2,
+    price: 'R$190,00'
+  },
+  {
+    id: 5,
+    title: 'Pop! Milhouse Fallout',
+    image: new URL ('@/assets/images/funkopopMilhouseFalloutBoy.png', import.meta.url).href,
+    inStock: 30,
+    price: 'R$160,00'
+  },
+  {
+    id: 6,
+    title: 'Pop! Hugo Simpson',
+    image: new URL ('@/assets/images/funkopopHugoSinpson.jpg', import.meta.url).href,
+    inStock: 3,
+    price: 'R$200,00'
+  },
+  {
+    id: 7,
+    title: 'Pop! Sideshow Bob',
+    image: new URL ('@/assets/images/funkopopSideshowBob.webp', import.meta.url).href,
+    inStock: 10,
+    price: 'R$190,00'
+  },
+  {
+    id: 8,
+    title: 'Pop! Ralph Wiggum',
+    image: new URL ('@/assets/images/funkopopRalphWiggum.webp', import.meta.url).href,
+    inStock: 0,
+    price: 'R$180,00'
+  },
+  {
+    id: 9,
+    title: ' Pop! Deep Space Homer',
+    image: new URL ('@/assets/images/deepspacehomer.jfif', import.meta.url).href,
+    inStock: 0,
+    price: 'R$250,00'
+  },
+  {
+    id: 10,
+    title: 'Pop! Mr. Sparkley',
+    image: new URL ('@/assets/images/mrsparkley.jfif', import.meta.url).href,
+    inStock: 0,
+    price: 'R$150,00'
+  },
+  {
+    id: 11,
+    title: 'Pop! Evil Homer',
+    image: new URL ('@/assets/images/evilhomer.jfif', import.meta.url).href,
+    inStock: 7,
+    price: 'R$170,00'
+  },
+  {
+    id: 12,
+    title: 'Pop! Lisandra',
+    image: new URL ('@/assets/images/lisandra.jfif', import.meta.url).href,
+    inStock: 20,
+    price: 'R$50,00'
   }
-})
+
+]);
+
 </script>
 
 <style scoped>
