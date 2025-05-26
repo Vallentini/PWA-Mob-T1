@@ -133,7 +133,7 @@ const goToDetails = (id) => {
                     <img :src="product.image" :alt="product.title">
                 </div>
                 <div class="product-info">
-                    <router-link to="/details"><a id="a">
+                    <router-link to="/details"><a id="{{ id }}">
                             <h3 class="product-name" :key="product.id" @click="goToDetails(product.id)">{{ product.title }}</h3>
                             <p class="product-price">{{ product.price }}</p>
                         </a>
