@@ -1,6 +1,7 @@
 <script setup>
 import { watch, onMounted, computed } from 'vue'
 import NavBar from '@/components/NavBar.vue'
+import FooterBar from '@/components/FooterBar.vue'
 import { useCartStore } from '@/stores/cart'
 
 const cartStore = useCartStore()
@@ -107,6 +108,7 @@ const confirmBuy = () => {
         </div>
 
     </div>
+    <FooterBar />
 </template>
 
 <style scoped>

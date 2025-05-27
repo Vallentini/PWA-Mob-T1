@@ -18,8 +18,6 @@ import CartSummary from '@/components/CartSummary.vue'
             <div class="sobre-info"><p>Sobre</p></div>
         </div>
         <img src="@/assets/images/banner2.png" alt="banner2" class="banner">
-    <router-link to="/favorite">Favorites</router-link>
-    <CartSummary />
     <ProdutosList />
     <!-- Rodapé -->
     <FooterBar />

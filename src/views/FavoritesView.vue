@@ -1,6 +1,7 @@
 <script setup>
 import { useFavoritesStore } from '@/stores/favorite'
 import NavBar from '@/components/NavBar.vue'
+import FooterBar from '@/components/FooterBar.vue'
 
 const favoritesStore = useFavoritesStore()
 
@@ -28,6 +29,7 @@ const removeFromFavorites = (id) => {
       <p>Você ainda não favoritou nenhum produto.</p>
     </div>
   </div>
+  <FooterBar />
 </template>
 
 <style scoped>

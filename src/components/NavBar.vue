@@ -2,9 +2,7 @@
 <template>
     <div class="container-nav">
         <div class="nav">
-          <router-link to="/">
             <img src="@/assets/images/The-Simpsons-28-04-2025 3 (1).png" alt="The Simpsons">
-           </router-link> 
         </div>
     </div>
 </template>
@@ -12,16 +10,16 @@
 /* NAVEGAÇÃO */
 .container-nav {
   width: 100%;
-  background-color: #1D1C1C;
-  height: 200px;
-  color: #fff;
+  background-color: #b2d6ff;
+  height: 100px;
+  color: #f8f68f;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .nav img {
-  width: 193px;
+  width: 150px;
   height: 100px;
 }
 </style>

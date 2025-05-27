@@ -22,9 +22,9 @@ const router = createRouter({
       component: () => import('@/views/CartView.vue'),
     },
     {
-      path: '/favorite',
+      path: '/favorites',
       name: 'favorite',
-      componente: FavoritesView
+      component: FavoritesView
     }
   ],
 })
