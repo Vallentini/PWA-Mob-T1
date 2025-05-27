@@ -2,21 +2,26 @@
 import NavBar from '@/components/NavBar.vue'
 import FooterBar from '@/components/FooterBar.vue'
 import ProductDetails from '@/components/ProductDetails.vue'
+import CartSummary from '@/components/CartSummary.vue'
 
 
 </script>
 
 <template>
-  <div id="app">
+  <div id="container">
     <!-- Navbar -->
-    <NavBar/>
+    <NavBar />
+    <CartSummary />
     <!-- Detalhes do Produtos -->
-    <ProductDetails></ProductDetails>
+    <ProductDetails />
     <!-- Rodapé -->
     <FooterBar />
   </div>
 </template>
 
 <style scoped>
-
+#container {
+  width: 100%;
+  font-family: 'Passion One', sans-serif;
+}
 </style>

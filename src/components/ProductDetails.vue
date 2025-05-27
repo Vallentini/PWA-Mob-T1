@@ -1,123 +1,121 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useCartStore } from '@/stores/cart.js'
 
+const cartStore = useCartStore()
+const route = useRoute()
 const product = ref(null)
 const quantity = ref(1)
 
 const allProducts = [
-{
-        id: 1,
-        title: 'Pop! Homer',
-        image: new URL('@/assets/images/funkoHomer.png', import.meta.url).href,
-        inStock: 0,
-        price: 'R$150,00'
-    }, {
-        id: 2,
-        title: 'Pop! Skeleton Margie',
-        image: new URL('@/assets/images/funkopopMargeSimpson.webp', import.meta.url).href,
-        inStock: 0,
-        price: 'R$120,00'
-    },
-    {
-        id: 3,
-        title: 'Pop! Maggie Simpson',
-        image: new URL('@/assets/images/funkopopBart.jpg', import.meta.url).href,
-        inStock: 30,
-        price: 'R$230,00'
-    },
-    {
-        id: 4,
-        title: 'Pop! Bart Simpson',
-        image: new URL('@/assets/images/funkopopBart.jpg', import.meta.url).href,
-        inStock: 2,
-        price: 'R$190,00'
-    },
-    {
-        id: 5,
-        title: 'Pop! Milhouse Fallout',
-        image: new URL('@/assets/images/funkopopMilhouseFalloutBoy.png', import.meta.url).href,
-        inStock: 30,
-        price: 'R$160,00'
-    },
-    {
-        id: 6,
-        title: 'Pop! Hugo Simpson',
-        image: new URL('@/assets/images/funkopopHugoSinpson.jpg', import.meta.url).href,
-        inStock: 3,
-        price: 'R$200,00'
-    },
-    {
-        id: 7,
-        title: 'Pop! Sideshow Bob',
-        image: new URL('@/assets/images/funkopopSideshowBob.webp', import.meta.url).href,
-        inStock: 10,
-        price: 'R$190,00'
-    },
-    {
-        id: 8,
-        title: 'Pop! Ralph Wiggum',
-        image: new URL('@/assets/images/funkopopRalphWiggum.webp', import.meta.url).href,
-        inStock: 0,
-        price: 'R$180,00'
-    },
-    {
-        id: 9,
-        title: ' Pop! Deep Space Homer',
-        image: new URL('@/assets/images/deepspacehomer.jfif', import.meta.url).href,
-        inStock: 0,
-        price: 'R$250,00'
-    },
-    {
-        id: 10,
-        title: 'Pop! Mr. Sparkley',
-        image: new URL('@/assets/images/mrsparkley.jfif', import.meta.url).href,
-        inStock: 0,
-        price: 'R$150,00'
-    },
-    {
-        id: 11,
-        title: 'Pop! Evil Homer',
-        image: new URL('@/assets/images/evilhomer.jfif', import.meta.url).href,
-        inStock: 7,
-        price: 'R$170,00'
-    },
-    {
-        id: 12,
-        title: 'Pop! Lisandra',
-        image: new URL('@/assets/images/lisandra.jfif', import.meta.url).href,
-        inStock: 20,
-        price: 'R$50,00'
-    },
+  {
+    id: 1,
+    title: 'Pop! Homer',
+    image: new URL('@/assets/images/funkoHomer.png', import.meta.url).href,
+    inStock: 0,
+    price: 'R$150,00'
+  },
+  {
+    id: 2,
+    title: 'Pop! Skeleton Margie',
+    image: new URL('@/assets/images/funkopopMargeSimpson.webp', import.meta.url).href,
+    inStock: 0,
+    price: 'R$120,00'
+  },
+  {
+    id: 3,
+    title: 'Pop! Maggie Simpson',
+    image: new URL('@/assets/images/funkopopBart.jpg', import.meta.url).href,
+    inStock: 30,
+    price: 'R$230,00'
+  },
+  {
+    id: 4,
+    title: 'Pop! Bart Simpson',
+    image: new URL('@/assets/images/funkopopBart.jpg', import.meta.url).href,
+    inStock: 2,
+    price: 'R$190,00'
+  },
+  {
+    id: 5,
+    title: 'Pop! Milhouse Fallout',
+    image: new URL('@/assets/images/funkopopMilhouseFalloutBoy.png', import.meta.url).href,
+    inStock: 30,
+    price: 'R$160,00'
+  },
+  {
+    id: 6,
+    title: 'Pop! Hugo Simpson',
+    image: new URL('@/assets/images/funkopopHugoSinpson.jpg', import.meta.url).href,
+    inStock: 3,
+    price: 'R$200,00'
+  },
+  {
+    id: 7,
+    title: 'Pop! Sideshow Bob',
+    image: new URL('@/assets/images/funkopopSideshowBob.webp', import.meta.url).href,
+    inStock: 10,
+    price: 'R$190,00'
+  },
+  {
+    id: 8,
+    title: 'Pop! Ralph Wiggum',
+    image: new URL('@/assets/images/funkopopRalphWiggum.webp', import.meta.url).href,
+    inStock: 0,
+    price: 'R$180,00'
+  },
+  {
+    id: 9,
+    title: ' Pop! Deep Space Homer',
+    image: new URL('@/assets/images/deepspacehomer.jfif', import.meta.url).href,
+    inStock: 0,
+    price: 'R$250,00'
+  },
+  {
+    id: 10,
+    title: 'Pop! Mr. Sparkley',
+    image: new URL('@/assets/images/mrsparkley.jfif', import.meta.url).href,
+    inStock: 0,
+    price: 'R$150,00'
+  },
+  {
+    id: 11,
+    title: 'Pop! Evil Homer',
+    image: new URL('@/assets/images/evilhomer.jfif', import.meta.url).href,
+    inStock: 7,
+    price: 'R$170,00'
+  },
+  {
+    id: 12,
+    title: 'Pop! Lisandra',
+    image: new URL('@/assets/images/lisandra.jfif', import.meta.url).href,
+    inStock: 20,
+    price: 'R$50,00'
+  }
 ]
 
 const getProductById = (id) => {
   return allProducts.find((product) => product.id === id)
 }
 
-const addToCart = (product) => {
-  let storedCart = JSON.parse(localStorage.getItem("cart")) || []
+const addToCart = () => {
+const productToAdd = {
+  id: product.value.id,
+  title: product.value.title,
+  image: product.value.image,
+  price: product.value.price,
+}
+  cartStore.addToCart(productToAdd, quantity.value)
+  alert('Produto adicionado ao carrinho 🛒✅!')
+}
 
-  const existingItem = storedCart.find((item) => item.id === product.id)
-
-  if (existingItem) {
-    existingItem.quantity += quantity.value
-  } else {
-    storedCart.push({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      image: product.image,
-      quantity: quantity.value,
-    })
-  }
-
-  localStorage.setItem("cart", JSON.stringify(storedCart))
-  alert("Produto adicionado ao carrinho! ✅")
+const confirmBuy = () => {
+  alert('Compra concluída com sucesso ✅!')
 }
 
 const loadProduct = () => {
-  const urlParams = new URLSearchParams(window.location.search)
-  const id = parseInt(urlParams.get("id"))
+  const id = parseInt(route.params.id)
   if (id) {
     product.value = getProductById(id)
   }
@@ -141,36 +139,39 @@ onMounted(() => {
 </script>
 
 <template>
-      <div v-if="product" class="details-product">
-        <img :src="product.image" alt="Produto" class="details-img" />
-        <div class="details-items">
-          <h1 class="details-name">{{ product.title }}</h1>
-          <p class="details-price">{{ product.price }}</p>
-          <div class="quantity-control">
-            <span>Quantidade</span>
-            <button class="quantity-button" @click="diminuir" :disabled="quantity <= 0">−</button>
-            <span class="quantity-value">{{ quantity }}</span>
-            <button class="quantity-button" @click="aumentar" :disabled="quantity >= product.inStock">+</button>
-          </div>          
-          <div class="container-button">
-            <button
-              class="button"
-              style="margin: 5px"
-              :class="{ disabledButton: product.inStock < 1 }"
-              @click="addToCart(product)"
-              :disabled="product.inStock < 1"
-            >
-              <img
-                src="@/assets/images/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
-                alt="cart"
-              />
-            </button>
-            <button style="margin: 5px" class="button">Buy Now</button>
-          </div>
-        </div>
+  <div v-if="product" class="details-product">
+    <img :src="product.image" alt="Produto" class="details-img" />
+    <div class="details-items">
+      <h1 class="details-name">{{ product.title }}</h1>
+      <p class="details-price">{{ product.price }}</p>
+      <div class="quantity-control">
+        <span>Quantidade</span>
+        <button class="quantity-button" @click="diminuir" :disabled="quantity <= 0">−</button>
+        <span class="quantity-value">{{ quantity }}</span>
+        <button class="quantity-button" @click="aumentar" :disabled="quantity >= product.inStock">+</button>
       </div>
+      <div class="container-button">
+        <button
+          class="button"
+          style="margin: 5px"
+          :class="{ disabledButton: product.inStock < 1 }"
+          @click="addToCart(product)"
+          :disabled="product.inStock < 1"
+        >
+          <img
+            src="@/assets/images/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
+            alt="cart"
+          />
+        </button>
+        <button style="margin: 5px" class="button" @click="confirmBuy">Buy Now</button>
+      </div>
+    </div>
+  </div>
 </template>
 <style scoped>
+*{
+    font-family: 'Passion One', sans-serif;
+}
 /* BOTÃO GENÉRICO */
 .container-button {
   display: flex;
@@ -206,7 +207,7 @@ button img {
   flex-direction: row;
   align-items: center;
   gap: 40px;
-  margin: 5% 1% 5% 18%;
+  margin: 5% 1% 5% 8%;
   flex-wrap: wrap;
 }
 

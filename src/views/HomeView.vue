@@ -2,6 +2,7 @@
 import NavBar from '@/components/NavBar.vue'
 import FooterBar from '@/components/FooterBar.vue'
 import ProdutosList from '@/components/ProductList.vue'
+import CartSummary from '@/components/CartSummary.vue'
 
 
 </script>
@@ -18,7 +19,7 @@ import ProdutosList from '@/components/ProductList.vue'
         </div>
         <img src="@/assets/images/banner2.png" alt="banner2" class="banner">
                 
-        <!-- Lista de Produtos -->
+    <CartSummary />
     <ProdutosList />
     <!-- Rodapé -->
     <FooterBar />

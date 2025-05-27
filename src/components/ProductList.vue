@@ -2,30 +2,23 @@
 
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useCartStore } from '@/stores/cart.js'
+const cartStore = useCartStore()
+
 
 const router = useRouter()
 
-const cart = ref(0)
-
 const addToCart = (product) => {
-    cart.value += 1
-    let storedCart = JSON.parse(localStorage.getItem("cart")) || []
+  const productToAdd = {
+    id: product.id,
+    title: product.title,
+    description: product.description,
+    image: product.image,
+    price: product.price,
+  }
 
-    const existingItem = storedCart.find((item) => item.id === product.id)
-
-    if (existingItem) {
-        existingItem.quantity += 1
-    } else {
-        storedCart.push({
-            id: product.id,
-            title: product.title,
-            description: product.description,
-            image: product.image,
-            quantity: 1,
-        })
-    }
-
-    localStorage.setItem("cart", JSON.stringify(storedCart))
+  cartStore.addToCart(productToAdd, 1) // Adiciona 1 por clique
+  alert('Produto adicionado ao carrinho✅!')
 }
 
 const products = ref([
@@ -35,7 +28,8 @@ const products = ref([
         image: new URL('@/assets/images/funkoHomer.png', import.meta.url).href,
         inStock: 0,
         price: 'R$150,00'
-    }, {
+    },
+    {
         id: 2,
         title: 'Pop! Skeleton Margie',
         image: new URL('@/assets/images/funkopopMargeSimpson.webp', import.meta.url).href,
@@ -112,47 +106,41 @@ const products = ref([
         inStock: 20,
         price: 'R$50,00'
     }
-
 ]);
 
 const goToDetails = (id) => {
-  router.push({ name: 'details', params: { id } }) // ← Envia o ID para a rota
+    router.push({ name: 'details', params: { id } })
 }
 </script>
 <template>
-    <div class="cart">
-            <img src="@/assets/images/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="icon-cart" class="icon-cart"> 
-            {{ cart }}
-        </div>
-        <h2>Novos Funkos Para Você!</h2>
+    <h2>Novos Funkos Para Você!</h2>
     <div class="product-display">
-        <div class="product-container" v-for="(product, ) in products" :key="product.id">
+        <div class="product-container" v-for="product in products" :key="product.id">
             <img src="@/assets/images/favorite_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Favoritar"
                 class="icon-heart">
-                <div class="product-image">
-                    <img :src="product.image" :alt="product.title">
-                </div>
-                <div class="product-info">
-                    <router-link to="/details"><a id="{{ id }}">
-                            <h3 class="product-name" :key="product.id" @click="goToDetails(product.id)">{{ product.title }}</h3>
-                            <p class="product-price">{{ product.price }}</p>
-                        </a>
-                    </router-link>
-                    <p v-if="product.inStock >= 10" class="inStock">In Stock</p>
-                    <p v-else-if="product.inStock > 1 && product.inStock < 10"
-                        style="color: rgb(255, 191, 0);font-size: 22px;  font-family: Roboto, sans-serif;font-weight: 400;">
-                        Almost out of stock</p>
-                    <p v-else style="color: red;font-size: 22px; font-family: Roboto, sans-serif;font-weight: 400;">Out
-                        of
-                        stock</p>
-                </div>
-                <button class="button" :class="{ disabledButton: product.inStock < 1 }" @click="addToCart"
-                    :disabled="product.inStock < 1"><img
-                        src="@/assets/images/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="icon-cart"
-                        class="icon-cart"></button>
+            <div class="product-image">
+                <img :src="product.image" :alt="product.title">
+            </div>
+            <div class="product-info">
+                <h3 class="product-name" @click="goToDetails(product.id)" style="cursor:pointer">{{ product.title }}
+                </h3>
+                <p class="product-price">{{ product.price }}</p>
+                <p v-if="product.inStock >= 10" class="inStock">In Stock</p>
+                <p v-else-if="product.inStock > 1 && product.inStock < 10"
+                    style="color: rgb(255, 191, 0);font-size: 22px;  font-family: Roboto, sans-serif;font-weight: 400;">
+                    Almost out of stock
+                </p>
+                <p v-else style="color: red;font-size: 22px; font-family: Roboto, sans-serif;font-weight: 400;">
+                    Out of stock
+                </p>
+            </div>
+            <button class="button" :class="{ disabledButton: product.inStock < 1 }" @click="addToCart(product)"
+                :disabled="product.inStock < 1">
+                <img src="@/assets/images/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="icon-cart"
+                    class="icon-cart">
+            </button>
         </div>
     </div>
-
 </template>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Passion+One:wght@400;700;900&display=swap');
@@ -174,8 +162,8 @@ a {
 }
 
 h2 {
-  text-align: center;
-  font-size: 66px;
+    text-align: center;
+    font-size: 66px;
 }
 
 
@@ -246,26 +234,26 @@ button img {
 
 /* BOTÃO CART */
 .cart {
-  width: 120px;
-  height: 41px;
-  background-color: #f0eaea;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border: none;
-  border-radius: 60px;
-  font-size: 25px;
-  font-weight: 400;
-  color: #000;
-  margin: 30px 100px 0 auto;
-  text-decoration: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 120px;
+    height: 41px;
+    background-color: #f0eaea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: none;
+    border-radius: 60px;
+    font-size: 25px;
+    font-weight: 400;
+    color: #000;
+    margin: 30px 100px 0 auto;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .icon-cart {
-  width: 22px;
-  height: 22px;
+    width: 22px;
+    height: 22px;
 }
 
 /* BOTÃO GENÉRICO */
