@@ -18,9 +18,19 @@ export const useCartStore = defineStore('cart', () => {
     return cart.value.reduce((acc, item) => acc + item.quantity, 0)
   })
 
+  function clearCart() {
+    cart.value = []
+  }
+
+   const removeFromCart = (id) => {
+    cart.value = cart.value.filter(item => item.id !== id)
+  }
+
   return {
     cart,
     addToCart,
     totalItems,
+    clearCart,
+    removeFromCart
   }
 })

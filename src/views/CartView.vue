@@ -7,8 +7,13 @@ const cartStore = useCartStore()
 const cart = computed(() => cartStore.cart)
 
 onMounted(() => {
-    const storedCart = localStorage.getItem('cart')
-    cart.value = storedCart ? JSON.parse(storedCart) : []
+const storedCart = localStorage.getItem('cart')
+    if (storedCart) {
+        const parsed = JSON.parse(storedCart)
+        parsed.forEach(item => {
+            cartStore.addToCart(item, item.quantity)
+        })
+    }
 })
 
 watch(cart, (newCart) => {
@@ -16,8 +21,8 @@ watch(cart, (newCart) => {
 }, { deep: true })
 
 const removeItem = (id) => {
-    cart.value = cart.value.filter(item => item.id !== id)
-}
+ cartStore.removeFromCart(id)
+    }
 
 const increaseQuantity = (item) => {
     item.quantity++
@@ -42,6 +47,17 @@ const totalPrice = () => {
 const formatPrice = (value) => {
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
+
+const confirmBuy = () => {
+    if (cartStore.cart.length === 0) {
+        alert('Seu carrinho está vazio.')
+        return
+    }
+
+    alert('Compra realizada com sucesso! ✅')
+    cartStore.clearCart()
+}
+
 </script>
 
 <template>
@@ -81,11 +97,14 @@ const formatPrice = (value) => {
             </table>
 
             <h2>Total: {{ formatPrice(totalPrice()) }}</h2>
+            <button style="margin: 5px" class="button" @click="confirmBuy">Buy Now</button>
+
         </div>
 
         <div v-else>
             <p>Seu carrinho está vazio.</p>
         </div>
+
     </div>
 </template>
 
