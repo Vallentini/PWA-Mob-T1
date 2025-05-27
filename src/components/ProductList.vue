@@ -3,22 +3,28 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cart.js'
-const cartStore = useCartStore()
+import { useFavoritesStore } from '@/stores/favorite'
 
+const favoritesStore = useFavoritesStore()
+
+const toggleFavorite = (product) => {
+  favoritesStore.toggleFavorite(product) }
+
+  const cartStore = useCartStore()
 
 const router = useRouter()
 
 const addToCart = (product) => {
-  const productToAdd = {
-    id: product.id,
-    title: product.title,
-    description: product.description,
-    image: product.image,
-    price: product.price,
-  }
+    const productToAdd = {
+        id: product.id,
+        title: product.title,
+        description: product.description,
+        image: product.image,
+        price: product.price,
+    }
 
-  cartStore.addToCart(productToAdd, 1) // Adiciona 1 por clique
-  alert('Produto adicionado ao carrinho✅!')
+    cartStore.addToCart(productToAdd, 1) // Adiciona 1 por clique
+    alert('Produto adicionado ao carrinho✅!')
 }
 
 const products = ref([
@@ -116,29 +122,47 @@ const goToDetails = (id) => {
     <h2>Novos Funkos Para Você!</h2>
     <div class="product-display">
         <div class="product-container" v-for="product in products" :key="product.id">
-            <img src="@/assets/images/favorite_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="Favoritar"
-                class="icon-heart">
-            <div class="product-image">
-                <img :src="product.image" :alt="product.title">
-            </div>
-            <div class="product-info">
-                <h3 class="product-name" @click="goToDetails(product.id)" style="cursor:pointer">{{ product.title }}
-                </h3>
-                <p class="product-price">{{ product.price }}</p>
-                <p v-if="product.inStock >= 10" class="inStock">In Stock</p>
-                <p v-else-if="product.inStock > 1 && product.inStock < 10"
-                    style="color: rgb(255, 191, 0);font-size: 22px;  font-family: Roboto, sans-serif;font-weight: 400;">
-                    Almost out of stock
-                </p>
-                <p v-else style="color: red;font-size: 22px; font-family: Roboto, sans-serif;font-weight: 400;">
-                    Out of stock
-                </p>
-            </div>
-            <button class="button" :class="{ disabledButton: product.inStock < 1 }" @click="addToCart(product)"
-                :disabled="product.inStock < 1">
-                <img src="@/assets/images/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="icon-cart"
-                    class="icon-cart">
+            <button @click="toggleFavorite(product)" class="button-heart">
+                <svg v-if="favoritesStore.isFavorite(product.id)" xmlns="http://www.w3.org/2000/svg" fill="black"
+                    viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 
+          2 12.28 2 8.5 2 5.42 4.42 3 
+          7.5 3c1.74 0 3.41 0.81 4.5 
+          2.09C13.09 3.81 14.76 3 16.5 
+          3 19.58 3 22 5.42 22 8.5c0 
+          3.78-3.4 6.86-8.55 11.54L12 
+          21.35z" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" stroke="black" viewBox="0 0 24 24" width="24"
+                    height="24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 
+          6.364L12 20.364l7.682-7.682a4.5 
+          4.5 0 00-6.364-6.364L12 
+          7.636l-1.318-1.318a4.5 4.5 0 
+          00-6.364 0z" />
+                </svg>
             </button>
+                <div class="product-image">
+                    <img :src="product.image" :alt="product.title">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name" @click="goToDetails(product.id)" style="cursor:pointer">{{ product.title }}
+                    </h3>
+                    <p class="product-price">{{ product.price }}</p>
+                    <p v-if="product.inStock >= 10" class="inStock">In Stock</p>
+                    <p v-else-if="product.inStock > 1 && product.inStock < 10"
+                        style="color: rgb(255, 191, 0);font-size: 22px;  font-family: Roboto, sans-serif;font-weight: 400;">
+                        Almost out of stock
+                    </p>
+                    <p v-else style="color: red;font-size: 22px; font-family: Roboto, sans-serif;font-weight: 400;">
+                        Out of stock
+                    </p>
+                </div>
+                <button class="button" :class="{ disabledButton: product.inStock < 1 }" @click="addToCart(product)"
+                    :disabled="product.inStock < 1">
+                    <img src="@/assets/images/shopping_cart_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt="icon-cart"
+                        class="icon-cart">
+                </button>
         </div>
     </div>
 </template>
@@ -147,6 +171,11 @@ const goToDetails = (id) => {
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* GERAL */
+.button-heart {
+    background-color: white;
+    border: none;
+}
+
 img {
     width: 90%;
     height: 200px;

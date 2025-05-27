@@ -7,7 +7,7 @@ const cartStore = useCartStore()
 const cart = computed(() => cartStore.cart)
 
 onMounted(() => {
-const storedCart = localStorage.getItem('cart')
+    const storedCart = localStorage.getItem('cart')
     if (storedCart) {
         const parsed = JSON.parse(storedCart)
         parsed.forEach(item => {
@@ -21,8 +21,8 @@ watch(cart, (newCart) => {
 }, { deep: true })
 
 const removeItem = (id) => {
- cartStore.removeFromCart(id)
-    }
+    cartStore.removeFromCart(id)
+}
 
 const increaseQuantity = (item) => {
     item.quantity++
@@ -78,22 +78,23 @@ const confirmBuy = () => {
                 </thead>
                 <tbody>
                     <tr v-for="item in cart" :key="item.id">
-                        <td>
-                            <img :src="item.image" alt="Produto" width="70" />
+                        <td data-label="Produto">
+                            <img :src="item.image" alt="Produto" />
                             {{ item.title }}
                         </td>
-                        <td>
+                        <td data-label="Quantidade">
                             <button class="quanty-button" @click="decreaseQuantity(item)">−</button>
                             {{ item.quantity }}
                             <button class="quanty-button" @click="increaseQuantity(item)">+</button>
                         </td>
-                        <td>{{ item.price }}</td>
-                        <td>{{ formatPrice(parsePrice(item.price) * item.quantity) }}</td>
-                        <td>
+                        <td data-label="Preço unitário">{{ item.price }}</td>
+                        <td data-label="Subtotal">{{ formatPrice(parsePrice(item.price) * item.quantity) }}</td>
+                        <td data-label="Remover">
                             <button class="remove-button" @click="removeItem(item.id)">Remover</button>
                         </td>
                     </tr>
                 </tbody>
+
             </table>
 
             <h2>Total: {{ formatPrice(totalPrice()) }}</h2>
@@ -110,73 +111,130 @@ const confirmBuy = () => {
 
 <style scoped>
 .cart-container {
-    font-family: 'Passion One', sans-serif;
-    max-width: 800px;
-    margin: 2rem auto;
+  font-family: 'Passion One', sans-serif;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
 }
 
 .button {
-    width: 140px;
-    height: 61px;
-    background-color: #f0eaea;
-    border: none;
-    border-radius: 60px;
-    padding: 8px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin: auto;
-    font-size: 14px;
-    font-family: "Roboto", sans-serif;
-    font-weight: 800;
+  width: 140px;
+  height: 61px;
+  background-color: #f0eaea;
+  border: none;
+  border-radius: 60px;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: auto;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 800;
 }
 
 .quanty-button {
-    width: 32px;
-    height: 32px;
-    background-color: #e3e3e3;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
+  width: 32px;
+  height: 32px;
+  background-color: #e3e3e3;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 0 4px;
 }
 
 .remove-button {
-    width: 85px;
-    height: 32px;
-    background-color: #e3e3e3;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
+  width: auto;
+  padding: 0 10px;
+  height: 32px;
+  background-color: #e3e3e3;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
 }
 
 th,
 td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-    font-size: 20px;
-    font-weight: lighter;
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  font-size: 16px;
 }
 
 img {
-    border-radius: 8px;
-    margin-right: 10px;
-    vertical-align: middle;
+  border-radius: 8px;
+  margin-right: 10px;
+  vertical-align: middle;
+  max-width: 70px;
 }
-
-
 
 h1,
 h2 {
-    text-align: center;
+  text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 10px;
+    background: #f9f9f9;
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-right: 10px;
+    flex-shrink: 0;
+  }
+
+  .quanty-button {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+
+  .remove-button {
+    font-size: 14px;
+  }
+
+  .button {
+    font-size: 12px;
+    height: 50px;
+  }
 }
 </style>
+    
