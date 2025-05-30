@@ -2,7 +2,6 @@
 import NavBar from '@/components/NavBar.vue'
 import FooterBar from '@/components/FooterBar.vue'
 import ProductDetails from '@/components/ProductDetails.vue'
-import CartSummary from '@/components/CartSummary.vue'
 
 
 </script>
@@ -11,7 +10,6 @@ import CartSummary from '@/components/CartSummary.vue'
   <div id="container">
     <!-- Navbar -->
     <NavBar />
-    <CartSummary />
     <!-- Detalhes do Produtos -->
     <ProductDetails />
     <!-- Rodapé -->

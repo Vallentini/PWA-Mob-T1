@@ -2,7 +2,6 @@
 import NavBar from '@/components/NavBar.vue'
 import FooterBar from '@/components/FooterBar.vue'
 import ProdutosList from '@/components/ProductList.vue'
-import CartSummary from '@/components/CartSummary.vue'
 
 
 </script>
@@ -11,17 +10,20 @@ import CartSummary from '@/components/CartSummary.vue'
   <div id='container'>
     <!-- Navbar -->
     <NavBar></NavBar>
+
     <img src="@/assets/images/image 1.png" alt="banner1" class="banner">
-        <div class="banner-info">
-            <h1 class="title-info">POP!</h1>
-            <p class="description-info">Exclusivo Funko! Simpsons</p>
-            <div class="sobre-info"><p>Sobre</p></div>
-        </div>
-        <img src="@/assets/images/banner2.png" alt="banner2" class="banner">
+    <div class="banner-info">
+      <h1 class="title-info">POP!</h1>
+      <p class="description-info">Exclusivo Funko! Simpsons</p>
+      <div class="sobre-info">
+        <p>Sobre</p>
+      </div>
+    </div>
+    <img src="@/assets/images/banner2.png" alt="banner2" class="banner">
     <ProdutosList />
     <!-- Rodapé -->
     <FooterBar />
- </div> 
+  </div>
 </template>
 
 <style scoped>
@@ -29,7 +31,7 @@ import CartSummary from '@/components/CartSummary.vue'
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* GERAL */
-#container{
+#container {
   width: 100%;
   font-family: 'Passion One', sans-serif;
   background-color: #FFE448;
